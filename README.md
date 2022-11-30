@@ -38,3 +38,4 @@ index carat  cut  color  clarity  depth  table      volume
 ### tymczasowe linki
 # https://github.com/TomasBeuzen/machine-learning-tutorials/blob/master/ml-deploy-model/deploy-with-flask.ipynb
 https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xix-deployment-on-docker-containers
+https://medium.com/swlh/machine-learning-model-deployment-in-docker-using-flask-d77f6cb551d6
