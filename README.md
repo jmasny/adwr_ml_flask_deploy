@@ -131,7 +131,7 @@ Jeśli chcesz przetestować działanie projektu na swojej maszynie, wystarczy ż
 
 ##### Główna architektura
 - S. Zając, Modelowanie dla Biznesu, Analityka w czasie rzeczywistym - Narzędzia informatyczne i biznesowe, 
-Rodział 4.1 - Środowisko produkcyjne z modelem ML, Oficyna Wydawnicza SGH, Warszawa 2022
+Rozdział 4.1 - Środowisko produkcyjne z modelem ML, Oficyna Wydawnicza SGH, Warszawa 2022
 - [Github: sebkaz/sklearn-flask-docker](https://github.com/sebkaz/sklearn-flask-docker)
 
 ##### EDA
