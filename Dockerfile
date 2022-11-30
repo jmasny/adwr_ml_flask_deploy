@@ -10,5 +10,7 @@ COPY /data/diamonds_cleaned.csv data/
 RUN pip install -r requirements.txt
 RUN python3 create_and_train_model.py
 
+EXPOSE 5010
+
 ENTRYPOINT ["python3"]
 CMD ["app.py"]
