@@ -146,5 +146,5 @@ Rozdział 4.1 - Środowisko produkcyjne z modelem ML, Oficyna Wydawnicza SGH, Wa
 - [Flask Mega Tutorial: APIs](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xxiii-application-programming-interfaces-apis)
 
 ##### Opakowanie aplikacji w obraz Docker
-- [TomasBeuzen: ML deploy model](https://github.com/TomasBeuzen/machine-learning-tutorials/blob/master/ml-deploy-model/deploy-with-flask.ipynb)
+- [Github: ML deploy model](https://github.com/TomasBeuzen/machine-learning-tutorials/blob/master/ml-deploy-model/deploy-with-flask.ipynb)
 - [Medium: Machine Learning Model Deployment in Docker using Flask](https://medium.com/swlh/machine-learning-model-deployment-in-docker-using-flask-d77f6cb551d6)
