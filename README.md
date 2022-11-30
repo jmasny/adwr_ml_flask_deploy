@@ -53,25 +53,25 @@ projektu 'na produkcję', a niekoniecznie optymalizacja działania samego modelu
 
 ### 3. Przygotowanie Flask API
 
-Do udostępnienia modelu 'na produkcję' zdecydowano się wykorzystać mikroframework `Flask`, który pozwala na tworzenie
+Do implementacji modelu ML zdecydowano się wykorzystać mikroframework `Flask`, który pozwala na tworzenie
 aplikacji webowych wraz z uruchamianiem ich na swoim serwerze. 
 Aplikacja posiada dwa adresy: stronę domową i endpoint do wykonywania zapytań API.
 
-Na stronie domowej aplikacji umieszczonej pod domyślnym adresem `/` umieszczone zostały podstawowe odnośnie działania
-modelu ML oraz wykonywania zapytań API. Kod html strony domowej można znaleźć w pliku
+Na stronie domowej aplikacji umieszczonej pod domyślnym adresem `/` umieszczone zostały podstawowe informacje
+dotyczące działania modelu ML oraz wykonywania zapytań API. Kod html strony domowej można znaleźć w pliku
 [home.html](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/templates/home.html)
 
 ![Image](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/images/home.png)
 
 
 Drugim funkcjonującym adresem aplikacji jest `api/predict` tzw. endpoint API. Przez podanie 6 parametrów w metodzie GET
-można uzyskać przewidywaną przez model ML ceną diamentu. 
+zapytania HTTP można uzyskać przewidywaną przez model ML ceną diamentu. 
 Poniżej znajdują się przykładowe zapytania do API:
 
 * `/api/predict?&carat=0.37&cut=3&color=0&clarity=2&depth=59.2&table=61.0&volume=60.063`
 * `/api/predict?&carat=2.0&cut=2&color=1&clarity=1&depth=63.5&table=58.0&volume=274.23`
 
-W wyniku odpowiedzi aplikacja zwraca obiekt typu JSON zawierający predykcję wielkości ceny dla diamentu pod parametrem
+W wyniku odpowiedzi aplikacja zwraca obiekt typu JSON zawierający predykcję wielkości ceny dla diamentu pod kluczem
 `predicted_price`.
 
 ![Image](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/images/answer.png)
@@ -83,7 +83,7 @@ odbywa się przez port `5010` serwera. Kod aplikacji znajduję się w pliku
 ### 4. Opakowanie aplikacji w obraz Docker
 
 Ostatnim elementem zadania było wykonanie konteneryzacji aplikacji w systemie Docker, tak aby aplikacja mogła być 
-udostępniania i uruchomiana na innych hostach (komputerach, serwerach itp.). W tym celu najpierw zapisano wszystkie
+udostępniania i uruchomiana na innych hostach. W tym celu najpierw zapisano wszystkie
 wykorzystywane w projekcie moduły Pythona do pliku `requirements.txt`. Aby, to zrobić należy wpisać w terminalu bash
 (domyślny na macOS) polecenie:
 
@@ -103,7 +103,8 @@ A zatem w celu zbudowania obrazu należy w terminalu uruchomić polecenie:
 `docker build -t ml_flask_deploy .`
 
 Obraz Docker z modelem ML znajdującym się w aplikacji Flask zostanie zapisany pod nazwą `ml_flask_deploy`. 
-Aby uruchomić obraz i móc cieszyć się udostępnieniem modelu ML 'na produkcję' należy uruchomić polecenie:
+Aby uruchomić kontener Docker na podstawie stworzonego obrazu i móc cieszyć się działaniem modelu ML 
+należy uruchomić polecenie:
 
 `docker run -p 5050:5010 ml_flask_deploy`
 
@@ -118,6 +119,11 @@ kontenerze Docker.
 Tym sposobem zrealizowany został deploy modelu ML 'na produkcję'. Poprzez umieszczenie modelu ML w aplikacji `Flask` i
 późniejsze opakowanie jej w obraz `Docker` można w łatwy sposób udostępniać i uruchamiać aplikację na innych
 środowiskach.
+
+Jeśli chcesz przetestować działanie projektu na swojej maszynie, wystarczy że:
+- pobierzesz projekt z tego repozytorium GitHub
+- w miejscu, w którym znajdują się zapisane przez Ciebie pliki projektu uruchomisz polecenia `docker build` i 
+`docker run` z parametrami opisanymi w podrozdziale *4. Opakowanie aplikacji w obraz Docker*.
 
 **Enjoy!**
 
