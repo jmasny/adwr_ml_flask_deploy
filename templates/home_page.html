@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diamond API</title>
+</head>
+<body>
+<h1 style="color: #5e9ca0;">Cześć!</h1>
+<h2 style="color: #2e6c80;">Znajdujesz się na stronie gł&oacute;wnej modelu ML do szacowania ceny diament&oacute;w.</h2>
+<p>Stworzony model machine learningowy (a precyzyjniej model typu RandomForrestRegressor) został wytrenowany na ok. 33 tyś obserwacji w celu przewidywania ceny diamentu na podstawie 7 parametr&oacute;w:</p>
+<ul>
+<li>(float) carat</li>
+<li>(int) cut</li>
+<li>(int) color</li>
+<li>(int) clarity</li>
+<li>(float) depth</li>
+<li>(float) table</li>
+<li>(float) volume</li>
+</ul>
+<p>API modelu ML znajduje się pod adresem <code>/api/predict</code></p>
+<p><em>Przykładowe zapytanie wygląda następująco:</em></p>
+<p><code><span style="color: #808080;">/api/predict?&amp;carat=0.37&amp;cut=3&amp;color=0&amp;clarity=2&amp;depth=59.2&amp;table=61.0&amp;volume=60.06</span></code></p>
+<p><code></code></p>
+<p><code></code></p>
+<p><strong>&nbsp;</strong><em>Pamiętaj o podaniu wszystkich parametr&oacute;w<br /></em></p>
+<p>Wyślij zapytanie do API, aby dowiedzieć się jaka jest sugerowana cena Twojego diamentu :)</p>
+</body>
+</html>
