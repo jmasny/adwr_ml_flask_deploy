@@ -54,39 +54,76 @@ projektu 'na produkcję', a niekoniecznie optymalizacja działania samego modelu
 ### 3. Przygotowanie Flask API
 
 Do udostępnienia modelu 'na produkcję' zdecydowano się wykorzystać mikroframework `Flask`, który pozwala na tworzenie
-aplikacji webowych wraz z uruchamianiem ich na swoim serwerze. Kod aplikacji znajduję się w pliku 
-[app.py](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/app.py).
+aplikacji webowych wraz z uruchamianiem ich na swoim serwerze. 
 Aplikacja posiada dwa adresy: stronę domową i endpoint do wykonywania zapytań API.
 
-Na stronie domowej `home.html` umieszczonej pod domyślnym adresem `/` umieszczone zostały podstawowe odnośnie działania
+Na stronie domowej aplikacji umieszczonej pod domyślnym adresem `/` umieszczone zostały podstawowe odnośnie działania
 modelu ML oraz wykonywania zapytań API. Kod html strony domowej można znaleźć w pliku
 [home.html](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/templates/home.html)
+
 ![Image](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/images/home.png)
 
 
 Drugim funkcjonującym adresem aplikacji jest `api/predict` tzw. endpoint API. Przez podanie 6 parametrów w metodzie GET
-można uzyskać odpowiedź w formacie json z 
+można uzyskać przewidywaną przez model ML ceną diamentu. 
+Poniżej znajdują się przykładowe zapytania do API:
 
-- opis strony tytulowej
-- opis dzialania api
+* `/api/predict?&carat=0.37&cut=3&color=0&clarity=2&depth=59.2&table=61.0&volume=60.063`
+* `/api/predict?&carat=2.0&cut=2&color=1&clarity=1&depth=63.5&table=58.0&volume=274.23`
 
-### 4. Opakowanie aplikacji w kontener Docker
-- opis
-TO DO
+W wyniku odpowiedzi aplikacja zwraca obiekt typu JSON zawierający predykcję wielkości ceny dla diamentu pod parametrem
+`predicted_price`.
 
-### 5. Uruchomienie i przykładowe call do API 
-index carat  cut  color  clarity  depth  table      volume
-31404   0.37    3      0        2   59.2   61.0   60.060360
-30058   0.31    4      1        4   60.1   59.0   50.993712
-6365    1.01    2      0        1   63.5   58.0  163.670904
-32482   0.41    4      1        2   60.8   57.0   66.627360
-16865   1.52    1      0        2   63.3   56.0  246.195642
+![Image](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/images/answer.png)
 
-### jak uruchomić ten projekt
+Tym sposobem model ML został umieszczony w aplikacji, która uruchamiana jest na serwerze. Dostęp do aplikacji 
+odbywa się przez port `5010` serwera. Kod aplikacji znajduję się w pliku 
+[app.py](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/app.py).
 
-### Bibliografia
+### 4. Opakowanie aplikacji w obraz Docker
 
-##### Główne informacje
+Ostatnim elementem zadania było wykonanie konteneryzacji aplikacji w systemie Docker, tak aby aplikacja mogła być 
+udostępniania i uruchomiana na innych hostach (komputerach, serwerach itp.). W tym celu najpierw zapisano wszystkie
+wykorzystywane w projekcie moduły Pythona do pliku `requirements.txt`. Aby, to zrobić należy wpisać w terminalu bash
+(domyślny na macOS) polecenie:
+
+`pip freeze > requirements.txt`
+
+Następnie stworzono plik 
+[Dockerfile](https://github.com/jmasny/adwr_ml_flask_deploy/blob/main/Dockerfile), który zawiera wszystkie polecenia
+potrzebne do zbudowania obrazu Docker. Między innymi w pliku tym znajdują się polecenia, które:
+- `FROM` - wskazują i instalują odpowiednią wersję Pythona w obrazie Docker
+- `COPY` - kopiują lokalne skrypty do obrazu Docker
+- `RUN` - uruchomiają właściwe skrypty, takie jak trening modelu ML
+- `EXPOSE` - wskazują port do udostępnienia z poziomu kontenera Docker
+- `CMD` - finalnie uruchamiają aplikację i serwer Flask
+
+A zatem w celu zbudowania obrazu należy w terminalu uruchomić polecenie:
+
+`docker build -t ml_flask_deploy .`
+
+Obraz Docker z modelem ML znajdującym się w aplikacji Flask zostanie zapisany pod nazwą `ml_flask_deploy`. 
+Aby uruchomić obraz i móc cieszyć się udostępnieniem modelu ML 'na produkcję' należy uruchomić polecenie:
+
+`docker run -p 5050:5010 ml_flask_deploy`
+
+Polecenie to uruchomi kontener, który połączy port 5010 kontenera z portem 5050 maszyny lokalnej. Od teraz po wejściu
+na loopbackowy adres z portem 5050 na lokalnej maszynie umożliwiona jest interakcja z modelem ML zamkniętym w 
+kontenerze Docker.
+
+*Disclaimer - aby skorzystać z systemu Docker wymagana jest jego wcześniejsza instalacja na komputerze.*
+
+### 5. Podsumowanie
+
+Tym sposobem zrealizowany został deploy modelu ML 'na produkcję'. Poprzez umieszczenie modelu ML w aplikacji `Flask` i
+późniejsze opakowanie jej w obraz `Docker` można w łatwy sposób udostępniać i uruchamiać aplikację na innych
+środowiskach.
+
+**Enjoy!**
+
+### 6. Bibliografia
+
+##### Główna architektura
 - S. Zając, Modelowanie dla Biznesu, Analityka w czasie rzeczywistym - Narzędzia informatyczne i biznesowe, 
 Rodział 4.1 - Środowisko produkcyjne z modelem ML, Oficyna Wydawnicza SGH, Warszawa 2022
 - [Github: sebkaz/sklearn-flask-docker](https://github.com/sebkaz/sklearn-flask-docker)
@@ -98,9 +135,10 @@ Rodział 4.1 - Środowisko produkcyjne z modelem ML, Oficyna Wydawnicza SGH, War
 
 ##### Budowa modelu ML
 - [TowardsDataScience: Random Forest Regression](https://towardsdatascience.com/random-forest-regression-5f605132d19d)
-- https://thecleverprogrammer.com/2021/06/22/r2-score-in-machine-learning/
 
-### tymczasowe linki
-https://github.com/TomasBeuzen/machine-learning-tutorials/blob/master/ml-deploy-model/deploy-with-flask.ipynb
-https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xix-deployment-on-docker-containers
-https://medium.com/swlh/machine-learning-model-deployment-in-docker-using-flask-d77f6cb551d6
+##### Przygotowanie Flask API
+- [Flask Mega Tutorial: APIs](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xxiii-application-programming-interfaces-apis)
+
+##### Opakowanie aplikacji w obraz Docker
+- [TomasBeuzen: ML deploy model](https://github.com/TomasBeuzen/machine-learning-tutorials/blob/master/ml-deploy-model/deploy-with-flask.ipynb)
+- [Medium: Machine Learning Model Deployment in Docker using Flask](https://medium.com/swlh/machine-learning-model-deployment-in-docker-using-flask-d77f6cb551d6)
